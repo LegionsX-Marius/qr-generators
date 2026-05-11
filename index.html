@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="QRCode-Generators — Generator profesional de coduri QR personalizabile cu logo, gradient, AI style și export PNG/SVG/PDF/JPG." />
+  <meta name="keywords" content="qr code generator, qr personalizabil, qr cu logo, qr gradient, qr dinamic, qr romania" />
+  <meta name="theme-color" content="#7c3aed" />
+  <title>QRCode-Generators — Generator Pro QR Codes</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="QRCode-Generators" />
+  <meta property="og:description" content="Generator profesional de QR Codes personalizabile — gratuit, open source." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- QR Generator Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qr.js"></script>
+
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ░ PARTICLES BACKGROUND ░ -->
+  <canvas id="particles-bg"></canvas>
+
+  <!-- ░ HEADER ░ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <span class="logo-pixel"></span>
+          <span class="logo-pixel"></span>
+          <span class="logo-pixel"></span>
+          <span class="logo-pixel"></span>
+        </div>
+        <span class="logo-text">QRCode<span class="logo-accent">-Generators</span></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#generator" class="nav-link">Generator</a>
+        <a href="#dynamic" class="nav-link">QR Dinamic</a>
+        <a href="#ai-style" class="nav-link">AI Style</a>
+        <a href="https://github.com/YOUR_USERNAME/qrcode-generators" target="_blank" class="nav-link nav-github">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#generator" class="nav-link">Generator</a>
+      <a href="#dynamic" class="nav-link">QR Dinamic</a>
+      <a href="#ai-style" class="nav-link">AI Style</a>
+      <a href="https://github.com/YOUR_USERNAME/qrcode-generators" target="_blank" class="nav-link">
+        <i class="fab fa-github"></i> GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- ░ HERO ░ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ Open Source · Gratuit · Pro</div>
+      <h1 class="hero-title">
+        Generează <span class="glow-text">QR Codes</span><br />Personalizabile
+      </h1>
+      <p class="hero-subtitle">Cu logo, gradient, AI style, export multiplu și statistici în timp real</p>
+      <a href="#generator" class="btn-hero">
+        <i class="fas fa-qrcode"></i>
+        Începe acum
+        <span class="btn-shine"></span>
+      </a>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-qr-demo">
+        <canvas id="heroCanvas" width="200" height="200"></canvas>
+        <div class="hero-qr-glow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ MAIN GENERATOR ░ -->
+  <section class="generator-section" id="generator">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Generator <span class="accent">QR Code</span></h2>
+        <p class="section-sub">Personalizează fiecare detaliu al codului tău QR</p>
+      </div>
+
+      <div class="generator-layout">
+        <!-- LEFT: Controls -->
+        <div class="controls-panel">
+
+          <!-- QR Type Tabs -->
+          <div class="panel-card">
+            <div class="panel-label"><i class="fas fa-layer-group"></i> Tip QR</div>
+            <div class="qr-types-grid">
+              <button class="qr-type-btn active" data-type="url">
+                <i class="fas fa-link"></i>
+                <span>URL</span>
+              </button>
+              <button class="qr-type-btn" data-type="text">
+                <i class="fas fa-font"></i>
+                <span>Text</span>
+              </button>
+              <button class="qr-type-btn" data-type="wifi">
+                <i class="fas fa-wifi"></i>
+                <span>WiFi</span>
+              </button>
+              <button class="qr-type-btn" data-type="email">
+                <i class="fas fa-envelope"></i>
+                <span>Email</span>
+              </button>
+              <button class="qr-type-btn" data-type="phone">
+                <i class="fas fa-phone"></i>
+                <span>Telefon</span>
+              </button>
+              <button class="qr-type-btn" data-type="discord">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+              </button>
+              <button class="qr-type-btn" data-type="instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+              </button>
+              <button class="qr-type-btn" data-type="tiktok">
+                <i class="fab fa-tiktok"></i>
+                <span>TikTok</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Input Forms -->
+          <div class="panel-card">
+            <div class="panel-label"><i class="fas fa-edit"></i> Date QR</div>
+
+            <!-- URL -->
+            <div class="qr-form active" id="form-url">
+              <div class="input-group">
+                <i class="fas fa-link input-icon"></i>
+                <input type="url" id="input-url" class="qr-input" placeholder="https://siteulmeu.ro" />
+              </div>
+            </div>
+
+            <!-- Text -->
+            <div class="qr-form" id="form-text">
+              <div class="input-group">
+                <i class="fas fa-font input-icon"></i>
+                <textarea id="input-text" class="qr-input qr-textarea" placeholder="Scrie textul tău aici..."></textarea>
+              </div>
+            </div>
+
+            <!-- WiFi -->
+            <div class="qr-form" id="form-wifi">
+              <div class="input-group">
+                <i class="fas fa-wifi input-icon"></i>
+                <input type="text" id="wifi-ssid" class="qr-input" placeholder="Nume rețea (SSID)" />
+              </div>
+              <div class="input-group">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="wifi-pass" class="qr-input" placeholder="Parolă WiFi" />
+              </div>
+              <div class="input-group">
+                <i class="fas fa-shield-alt input-icon"></i>
+                <select id="wifi-enc" class="qr-input qr-select">
+                  <option value="WPA">WPA/WPA2</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">Fără parolă</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="qr-form" id="form-email">
+              <div class="input-group">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="email-to" class="qr-input" placeholder="destinatar@email.com" />
+              </div>
+              <div class="input-group">
+                <i class="fas fa-tag input-icon"></i>
+                <input type="text" id="email-subject" class="qr-input" placeholder="Subiect email" />
+              </div>
+              <div class="input-group">
+                <i class="fas fa-comment input-icon"></i>
+                <textarea id="email-body" class="qr-input qr-textarea" placeholder="Mesaj email..."></textarea>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="qr-form" id="form-phone">
+              <div class="input-group">
+                <i class="fas fa-phone input-icon"></i>
+                <input type="tel" id="input-phone" class="qr-input" placeholder="+40 712 345 678" />
+              </div>
+            </div>
+
+            <!-- Discord -->
+            <div class="qr-form" id="form-discord">
+              <div class="input-group">
+                <i class="fab fa-discord input-icon"></i>
+                <input type="text" id="input-discord" class="qr-input" placeholder="https://discord.gg/INVITE_CODE" />
+              </div>
+            </div>
+
+            <!-- Instagram -->
+            <div class="qr-form" id="form-instagram">
+              <div class="input-group">
+                <i class="fab fa-instagram input-icon"></i>
+                <input type="text" id="input-instagram" class="qr-input" placeholder="@username sau URL profil" />
+              </div>
+            </div>
+
+            <!-- TikTok -->
+            <div class="qr-form" id="form-tiktok">
+              <div class="input-group">
+                <i class="fab fa-tiktok input-icon"></i>
+                <input type="text" id="input-tiktok" class="qr-input" placeholder="@username TikTok" />
+              </div>
+            </div>
+          </div>
+
+          <!-- DESIGN PANEL -->
+          <div class="panel-card">
+            <div class="panel-label"><i class="fas fa-palette"></i> Design</div>
+
+            <!-- Colors -->
+            <div class="design-row">
+              <span class="design-label">Culoare dots</span>
+              <div class="color-controls">
+                <input type="color" id="color-dots" class="color-picker" value="#a855f7" />
+                <button class="gradient-toggle" id="gradientToggle">
+                  <i class="fas fa-fill-drip"></i> Gradient
+                </button>
+              </div>
+            </div>
+
+            <!-- Gradient (hidden by default) -->
+            <div class="gradient-row" id="gradientRow" style="display:none">
+              <div class="design-row">
+                <span class="design-label">Culoare 2</span>
+                <input type="color" id="color-dots2" class="color-picker" value="#3b0764" />
+              </div>
+              <div class="design-row">
+                <span class="design-label">Tip gradient</span>
+                <select id="gradient-type" class="qr-input qr-select compact">
+                  <option value="linear">Linear</option>
+                  <option value="radial">Radial</option>
+                  <option value="conic">Conic</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Background -->
+            <div class="design-row">
+              <span class="design-label">Fundal</span>
+              <input type="color" id="color-bg" class="color-picker" value="#0d0d1a" />
+              <label class="toggle-switch">
+                <input type="checkbox" id="transparent-bg" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Transparent</span>
+              </label>
+            </div>
+
+            <!-- Dot Style -->
+            <div class="design-row stacked">
+              <span class="design-label">Stil dots</span>
+              <div class="dot-styles-grid">
+                <button class="dot-style-btn active" data-style="square" title="Pătrat">
+                  <svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="0"/></svg>
+                </button>
+                <button class="dot-style-btn" data-style="rounded" title="Rotunjit">
+                  <svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="5"/></svg>
+                </button>
+                <button class="dot-style-btn" data-style="circle" title="Cerc">
+                  <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+                </button>
+                <button class="dot-style-btn" data-style="diamond" title="Diamant">
+                  <svg viewBox="0 0 20 20"><polygon points="10,2 18,10 10,18 2,10"/></svg>
+                </button>
+                <button class="dot-style-btn" data-style="star" title="Stea">
+                  <svg viewBox="0 0 20 20"><polygon points="10,1 12.9,7 19.5,7.6 14.5,12.1 16.2,18.5 10,15 3.8,18.5 5.5,12.1 0.5,7.6 7.1,7"/></svg>
+                </button>
+                <button class="dot-style-btn" data-style="cross" title="Cruce">
+                  <svg viewBox="0 0 20 20"><rect x="7" y="1" width="6" height="18" rx="1"/><rect x="1" y="7" width="18" height="6" rx="1"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Glow / Shadow -->
+            <div class="design-row">
+              <span class="design-label">Glow/Shadow</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="enable-glow" checked />
+                <span class="toggle-slider"></span>
+              </label>
+              <input type="range" id="glow-intensity" min="0" max="30" value="12" class="range-slider" />
+            </div>
+
+            <!-- Frame -->
+            <div class="design-row stacked">
+              <span class="design-label">Frame stil</span>
+              <div class="frame-styles-grid">
+                <button class="frame-style-btn active" data-frame="none" title="Fără">Fără</button>
+                <button class="frame-style-btn" data-frame="simple" title="Simplu">Simple</button>
+                <button class="frame-style-btn" data-frame="rounded" title="Rotunjit">Rounded</button>
+                <button class="frame-style-btn" data-frame="neon" title="Neon">Neon</button>
+                <button class="frame-style-btn" data-frame="corner" title="Colțuri">Corner</button>
+              </div>
+            </div>
+
+            <!-- Frame Color -->
+            <div class="design-row" id="frameColorRow" style="display:none">
+              <span class="design-label">Culoare frame</span>
+              <input type="color" id="color-frame" class="color-picker" value="#a855f7" />
+              <input type="text" id="frame-text" class="qr-input compact" placeholder="Text frame (ex: Scanează-mă)" />
+            </div>
+
+            <!-- Error Correction -->
+            <div class="design-row">
+              <span class="design-label">Corecție erori</span>
+              <select id="error-correction" class="qr-input qr-select compact">
+                <option value="L">L — 7%</option>
+                <option value="M" selected>M — 15%</option>
+                <option value="Q">Q — 25%</option>
+                <option value="H">H — 30%</option>
+              </select>
+            </div>
+
+            <!-- Size -->
+            <div class="design-row">
+              <span class="design-label">Dimensiune: <span id="size-val">400</span>px</span>
+              <input type="range" id="qr-size" min="200" max="1200" value="400" step="50" class="range-slider full" />
+            </div>
+          </div>
+
+          <!-- LOGO PANEL -->
+          <div class="panel-card">
+            <div class="panel-label"><i class="fas fa-image"></i> Logo Centru</div>
+            <div class="logo-upload-zone" id="logoDropZone">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Trage logo-ul sau <span class="link-text">alege fișier</span></p>
+              <input type="file" id="logoInput" accept="image/*" class="file-input-hidden" />
+            </div>
+            <div class="logo-preview-row" id="logoPreviewRow" style="display:none">
+              <img id="logoPreview" src="" alt="Logo preview" />
+              <button class="btn-remove-logo" id="removeLogoBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="design-row">
+              <span class="design-label">Formă logo</span>
+              <div class="logo-shapes">
+                <button class="logo-shape-btn active" data-shape="square">
+                  <svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="0"/></svg>
+                </button>
+                <button class="logo-shape-btn" data-shape="rounded">
+                  <svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="5"/></svg>
+                </button>
+                <button class="logo-shape-btn" data-shape="circle">
+                  <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+                </button>
+              </div>
+              <input type="range" id="logo-size" min="10" max="40" value="20" class="range-slider compact" title="Dimensiune logo %" />
+              <span class="range-val" id="logo-size-val">20%</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Preview + Export -->
+        <div class="preview-panel">
+          <div class="preview-card">
+            <div class="preview-header">
+              <span class="preview-label">
+                <span class="live-dot"></span>
+                Live Preview
+              </span>
+              <div class="preview-actions">
+                <button class="btn-icon" id="copyQrBtn" title="Copiază imagine">
+                  <i class="fas fa-copy"></i>
+                </button>
+                <button class="btn-icon" id="fullscreenBtn" title="Fullscreen">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="canvas-wrapper" id="canvasWrapper">
+              <canvas id="qrCanvas" width="400" height="400"></canvas>
+              <div class="canvas-glow-effect"></div>
+            </div>
+
+            <div class="qr-info-bar">
+              <span id="qr-version-info">v1 | 21×21</span>
+              <span id="qr-chars-info">0 caractere</span>
+              <span id="qr-capacity-info">—</span>
+            </div>
+          </div>
+
+          <!-- Export Buttons -->
+          <div class="export-card">
+            <div class="panel-label"><i class="fas fa-download"></i> Export</div>
+            <div class="export-grid">
+              <button class="export-btn" id="exportPNG">
+                <i class="fas fa-image"></i>
+                <span>PNG</span>
+                <small>Transparent</small>
+              </button>
+              <button class="export-btn" id="exportJPG">
+                <i class="fas fa-image"></i>
+                <span>JPG</span>
+                <small>Cu fundal</small>
+              </button>
+              <button class="export-btn" id="exportSVG">
+                <i class="fas fa-vector-square"></i>
+                <span>SVG</span>
+                <small>Vector</small>
+              </button>
+              <button class="export-btn" id="exportPDF">
+                <i class="fas fa-file-pdf"></i>
+                <span>PDF</span>
+                <small>Print ready</small>
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Style Quick Panel -->
+          <div class="ai-quick-card">
+            <div class="panel-label"><i class="fas fa-robot"></i> AI Quick Style</div>
+            <div class="ai-quick-input-wrap">
+              <input type="text" id="aiQuickInput" class="qr-input ai-input" placeholder="Ex: Gaming Neon Blue, Retro Orange..." />
+              <button class="btn-ai" id="aiQuickBtn">
+                <i class="fas fa-magic"></i>
+                Generează
+              </button>
+            </div>
+            <div class="ai-presets">
+              <button class="ai-preset-chip" data-preset="Gaming Neon Purple">🎮 Gaming Purple</button>
+              <button class="ai-preset-chip" data-preset="Ocean Wave Blue">🌊 Ocean</button>
+              <button class="ai-preset-chip" data-preset="Fire Red Orange">🔥 Fire</button>
+              <button class="ai-preset-chip" data-preset="Nature Green">🌿 Nature</button>
+              <button class="ai-preset-chip" data-preset="Midnight Dark">🌑 Midnight</button>
+              <button class="ai-preset-chip" data-preset="Sunset Pink Gold">🌅 Sunset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ AI STYLE SECTION ░ -->
+  <section class="ai-section" id="ai-style">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">AI <span class="accent">Style Generator</span></h2>
+        <p class="section-sub">Descrie stilul dorit și generăm automat culorile, forma dots-urilor și efectele</p>
+      </div>
+
+      <div class="ai-layout">
+        <div class="ai-input-panel">
+          <div class="ai-prompt-box">
+            <textarea id="aiPromptFull" class="ai-textarea" placeholder="Descrie stilul tău:&#10;Ex: &quot;Gaming cu neon albastru electric, dots rotunde, glow intens, gradient diagonal de la cyan la violet&quot;&#10;sau &quot;Minimalist negru pe alb, fără efecte, dots pătrate&quot;&#10;sau &quot;Retro 80s cu portocaliu și roz neon&quot;"></textarea>
+            <button class="btn-ai-full" id="aiGenerateFull">
+              <i class="fas fa-brain"></i>
+              Generează Style
+              <span class="btn-shine"></span>
+            </button>
+          </div>
+
+          <div class="ai-result-panel" id="aiResultPanel">
+            <div class="ai-result-header">
+              <i class="fas fa-sparkles"></i>
+              <span>Style generat</span>
+            </div>
+            <div class="ai-style-preview" id="aiStylePreview"></div>
+            <button class="btn-apply-style" id="applyAiStyle">
+              <i class="fas fa-check"></i>
+              Aplică acest style
+            </button>
+          </div>
+        </div>
+
+        <div class="ai-gallery">
+          <div class="gallery-label">Galerie Stiluri</div>
+          <div class="gallery-grid" id="styleGallery">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ DYNAMIC QR SECTION ░ -->
+  <section class="dynamic-section" id="dynamic">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">QR <span class="accent">Dinamic</span></h2>
+        <p class="section-sub">Schimbă URL-ul destinație oricând fără a regenera QR-ul. Urmărește statisticile în timp real.</p>
+      </div>
+
+      <div class="dynamic-layout">
+        <div class="dynamic-create-panel">
+          <div class="panel-card">
+            <div class="panel-label"><i class="fas fa-plus-circle"></i> Crează QR Dinamic</div>
+            <div class="input-group">
+              <i class="fas fa-tag input-icon"></i>
+              <input type="text" id="dynamic-title" class="qr-input" placeholder="Numele campaniei (ex: Meniu Restaurant)" />
+            </div>
+            <div class="input-group">
+              <i class="fas fa-link input-icon"></i>
+              <input type="url" id="dynamic-url" class="qr-input" placeholder="https://destinatia-ta.ro" />
+            </div>
+            <button class="btn-create-dynamic" id="createDynamicBtn">
+              <i class="fas fa-qrcode"></i>
+              Crează QR Dinamic
+            </button>
+          </div>
+
+          <div class="panel-card" id="dynamicResult" style="display:none">
+            <div class="panel-label"><i class="fas fa-check-circle" style="color:#22c55e"></i> QR Dinamic Creat!</div>
+            <div class="dynamic-qr-result">
+              <canvas id="dynamicQrCanvas" width="200" height="200"></canvas>
+              <div class="dynamic-info">
+                <div class="dynamic-short-url" id="dynamicShortUrl"></div>
+                <p class="dynamic-hint">Scanează pentru a redirecta la URL-ul original</p>
+                <button class="btn-copy-url" id="copyDynamicUrl">
+                  <i class="fas fa-copy"></i> Copiază link scurt
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="stats-panel">
+          <div class="panel-card stats-card">
+            <div class="panel-label"><i class="fas fa-chart-line"></i> Statistici Scanări</div>
+            <div class="stats-empty" id="statsEmpty">
+              <i class="fas fa-chart-bar"></i>
+              <p>Crează un QR dinamic pentru a vedea statisticile</p>
+            </div>
+            <div class="stats-data" id="statsData" style="display:none">
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <span class="stat-number" id="stat-total">0</span>
+                  <span class="stat-label">Total Scanări</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-number" id="stat-today">0</span>
+                  <span class="stat-label">Azi</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-number" id="stat-week">0</span>
+                  <span class="stat-label">Săptămâna</span>
+                </div>
+              </div>
+              <div class="chart-container">
+                <canvas id="statsChart" height="180"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ FEATURES STRIP ░ -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Live Preview</h3>
+          <p>QR-ul se actualizează instant pe măsură ce tastezi</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-robot"></i></div>
+          <h3>AI Style</h3>
+          <p>Descrie stilul în cuvinte și AI-ul îl generează</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+          <h3>Statistici</h3>
+          <p>Urmărește câți oameni au scanat QR-ul tău</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fab fa-github"></i></div>
+          <h3>Open Source</h3>
+          <p>100% gratuit și open source pe GitHub</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░ FOOTER ░ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-text">QRCode<span class="logo-accent">-Generators</span></span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/YOUR_USERNAME/qrcode-generators" target="_blank">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="#generator">Generator</a>
+        <a href="#dynamic">QR Dinamic</a>
+        <a href="#ai-style">AI Style</a>
+      </div>
+      <p class="footer-copy">© 2025 QRCode-Generators · Open Source MIT License</p>
+    </div>
+  </footer>
+
+  <!-- ░ TOAST NOTIFICATIONS ░ -->
+  <div id="toast-container"></div>
+
+  <!-- ░ SCRIPTS ░ -->
+  <script src="assets/js/qr-engine.js"></script>
+  <script src="assets/js/ai-style.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

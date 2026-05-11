@@ -1,0 +1,102 @@
+# ═══════════════════════════════════════════════════════════════
+# QRCode-Generators — .htaccess
+# Apache 2.4 + PHP 8.2 · URL Routing, Securitate, Performanță
+# ═══════════════════════════════════════════════════════════════
+
+# Activează mod_rewrite
+Options -Indexes +FollowSymLinks
+RewriteEngine On
+
+# ─── QR Dinamic Redirect ───────────────────────────────────────
+# /qr/{code}  →  api/redirect.php?code={code}
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^qr/([a-zA-Z0-9_-]{4,30})/?$ api/redirect.php?code=$1 [L,QSA]
+
+# ─── Forțare HTTPS ─────────────────────────────────────────────
+# Decomentează dacă ai SSL activ
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ─── Forțare www → non-www (sau invers) ───────────────────────
+# Non-www (recomandat):
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# ─── Protejare fișiere sensibile ──────────────────────────────
+<FilesMatch "^(config\.php|\.env|composer\.(json|lock)|package\.json|\.git)">
+    Require all denied
+</FilesMatch>
+
+# Blochează accesul direct la directorul /api/ din browser
+# (API-ul e apelabil, dar nu listabil)
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# ─── Securitate HTTP Headers ──────────────────────────────────
+<IfModule mod_headers.c>
+    # Previne clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Previne MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # XSS Protection (pentru browsere mai vechi)
+    Header always set X-XSS-Protection "1; mode=block"
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Remove PHP version header
+    Header always unset X-Powered-By
+    # Cache Control pentru API
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# ─── CORS pentru API ──────────────────────────────────────────
+<IfModule mod_headers.c>
+    <FilesMatch "api/.*\.php$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    </FilesMatch>
+</IfModule>
+
+# ─── Compresie GZIP ───────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+# ─── Cache browsere pentru assets statice ─────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    # CSS & JS
+    ExpiresByType text/css                  "access plus 1 month"
+    ExpiresByType application/javascript    "access plus 1 month"
+    # Imagini
+    ExpiresByType image/png                 "access plus 3 months"
+    ExpiresByType image/jpeg                "access plus 3 months"
+    ExpiresByType image/svg+xml             "access plus 3 months"
+    ExpiresByType image/webp                "access plus 3 months"
+    # Fonturi
+    ExpiresByType font/woff2                "access plus 1 year"
+    ExpiresByType font/woff                 "access plus 1 year"
+</IfModule>
+
+# ─── Charset implicit ─────────────────────────────────────────
+AddDefaultCharset UTF-8
+
+# ─── PHP Settings ─────────────────────────────────────────────
+<IfModule mod_php.c>
+    php_value upload_max_filesize    5M
+    php_value post_max_size          6M
+    php_value max_execution_time     30
+    php_value memory_limit           128M
+    php_flag  display_errors         Off
+    php_flag  log_errors             On
+</IfModule>
+
+# ─── Pagini eroare personalizate ──────────────────────────────
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html

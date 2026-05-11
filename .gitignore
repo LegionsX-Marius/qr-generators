@@ -1,0 +1,47 @@
+# ─── QRCode-Generators .gitignore ───
+
+# Fișiere sensibile (NU le urca pe GitHub!)
+api/config.php
+
+# Template sigur (uploadat în loc de config.php real)
+# api/config.example.php  ← creează un exemplu fără date reale
+
+# Logs
+*.log
+error_log
+php_error.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (dacă adaugi un build system mai târziu)
+node_modules/
+npm-debug.log*
+
+# Composer (dacă adaugi dependențe PHP)
+vendor/
+composer.lock
+
+# Build
+dist/
+build/
+
+# Temp
+tmp/
+temp/
+cache/
+uploads/temp/
+
+# Environment
+.env
+.env.local
+.env.production
